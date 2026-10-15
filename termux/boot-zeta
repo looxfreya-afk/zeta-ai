@@ -1,0 +1,5 @@
+#!/data/data/com.termux/files/usr/bin/sh
+# Butuh aplikasi Termux:Boot. Jalan otomatis saat HP menyala.
+termux-wake-lock
+sv-enable zeta-admin 2>/dev/null
+sv up zeta-admin 2>/dev/null || nohup python3 "$HOME/.zeta_ai/zeta.py" --admin >/dev/null 2>&1 &

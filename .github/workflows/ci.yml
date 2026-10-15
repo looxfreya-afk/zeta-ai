@@ -1,0 +1,23 @@
+name: ci
+on:
+  push: { branches: [main] }
+  pull_request:
+permissions: { contents: write }
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: python -m py_compile zeta.py
+      - run: python zeta.py --selftest
+      - run: sh -n install.sh
+      - name: Perbarui checksum
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          sha256sum zeta.py > zeta.py.sha256
+          if ! git diff --quiet; then
+            git config user.name "github-actions"; git config user.email "actions@github.com"
+            git add zeta.py.sha256; git commit -m "chore: update checksum [skip ci]"; git push
+          fi

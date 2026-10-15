@@ -1,0 +1,19 @@
+# VPS: salin ke /etc/systemd/system/zeta-admin.service
+# lalu: systemctl daemon-reload && systemctl enable --now zeta-admin
+# Taruh reverse proxy HTTPS (Caddy/nginx) di depan port 8787.
+[Unit]
+Description=Zeta AI admin
+After=network-online.target
+
+[Service]
+User=zeta
+WorkingDirectory=/opt/zeta-ai
+EnvironmentFile=/etc/zeta-ai.env
+ExecStart=/usr/bin/python3 /opt/zeta-ai/zeta.py --admin
+Restart=on-failure
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/zeta-ai
+
+[Install]
+WantedBy=multi-user.target

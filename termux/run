@@ -1,0 +1,5 @@
+#!/data/data/com.termux/files/usr/bin/sh
+# Layanan termux-services: admin web di latar belakang (127.0.0.1:8787)
+exec 2>&1
+termux-wake-lock 2>/dev/null || true
+exec python3 "$HOME/.zeta_ai/zeta.py" --admin

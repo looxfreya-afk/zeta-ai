@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: zeta-ai
+    runtime: docker
+    plan: starter          # disk persisten butuh plan berbayar; free = data hilang saat restart
+    healthCheckPath: /healthz
+    disk:
+      name: zeta-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: ZETA_HOST
+        value: 0.0.0.0
+      - key: ZETA_HOME
+        value: /data
+      - key: ZETA_PUBLIC_HOST
+        sync: false        # isi: nama-app.onrender.com
+      - key: ZETA_ADMIN_PASSWORD
+        sync: false        # min 12 karakter
+      - key: OPENROUTER_API_KEY
+        sync: false
